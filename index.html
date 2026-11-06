@@ -12,91 +12,459 @@
   <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
-  <div class="reveal">
-    <div class="slides">
+<div class="reveal">
+<div class="slides">
 
-      <!-- Portada -->
-      <section>
-        <h1>Principios de Desarrollo de Software</h1>
-        <p class="subtitulo">Código · Arquitectura · Metodologías</p>
-        <p class="pequeno">CE1105 — Principios de Modelado en Ingeniería</p>
-        <p class="pequeno">Sebastián Leiva Salas · Emmanuel Rojas Navarro · Job Jiménez Sandí</p>
-      </section>
-
-      <!-- Agenda -->
-      <section>
-        <h2>Agenda</h2>
-        <ol>
-          <li class="fragment">Los tres niveles</li>
-          <li class="fragment">SOLID y el ejemplo GestorPedidos</li>
-          <li class="fragment">DRY, KISS, YAGNI y sus tensiones</li>
-          <li class="fragment">Cohesión, acoplamiento y Strategy</li>
-          <li class="fragment">Estilos arquitectónicos: Netflix vs. Shopify</li>
-          <li class="fragment">Scrum vs. Kanban y TDD</li>
-          <li class="fragment">Conclusiones</li>
-        </ol>
-      </section>
-
-      <!-- Demo: resaltado de código por pasos -->
-      <section>
-        <h3>Demo: código resaltado por pasos</h3>
-        <pre><code class="language-java" data-trim data-line-numbers="1-11|2-5|6-9">
-public double calcularTotal(Pedido pedido) {
-    double total = 0;
-    for (Item item : pedido.getItems()) {
-        total += item.getPrecio() * item.getCantidad();
-    }
-    if (pedido.getTipoCliente().equals("VIP")) {
-        total *= 0.9;
-    } else if (pedido.getTipoCliente().equals("MAYORISTA")) {
-        total *= 0.85;
-    }
-    return total;
-}
-        </code></pre>
-      </section>
-
-      <!-- Demo: auto-animate (monolito -> microservicios) -->
-      <section data-auto-animate>
-        <h3>Demo: Auto-Animate</h3>
-        <div class="cajas">
-          <div class="caja grande" data-id="sistema">Monolito</div>
-        </div>
-      </section>
-      <section data-auto-animate>
-        <h3>Demo: Auto-Animate</h3>
-        <div class="cajas">
-          <div class="caja" data-id="sistema">Reproducción</div>
-          <div class="caja">Recomendaciones</div>
-          <div class="caja">Facturación</div>
-        </div>
-      </section>
-
-      <!-- Demo: animación con GSAP -->
-      <section id="demo-tdd">
-        <h3>Demo: animación con GSAP</h3>
-        <div class="ciclo">
-          <span class="paso rojo">Red</span>
-          <span class="paso verde">Green</span>
-          <span class="paso azul">Refactor</span>
-        </div>
-      </section>
-
-      <!-- Cierre -->
-      <section>
-        <h2>¡Gracias!</h2>
-        <p class="pequeno">Presentación disponible en GitHub Pages</p>
-      </section>
-
+<!-- ============================================================
+     PORTADA
+     ============================================================ -->
+<section id="portada">
+  <div class="terminal">
+    <div class="terminal-barra"><span></span><span></span><span></span></div>
+    <div class="terminal-cuerpo">
+      <p class="prompt">$ <span id="tipeo"></span><span class="cursor">▌</span></p>
+      <p class="terminal-sub">Código · Arquitectura · Metodologías</p>
     </div>
   </div>
+  <p class="pequeno">CE1105 — Principios de Modelado en Ingeniería</p>
+  <p class="pequeno">Sebastián Leiva Salas · Emmanuel Rojas Navarro · Job Jiménez Sandí</p>
+</section>
 
-  <script src="lib/reveal/reveal.js"></script>
-  <script src="lib/reveal/plugin/highlight.js"></script>
-  <script src="lib/reveal/plugin/notes.js"></script>
-  <script src="lib/reveal/plugin/zoom.js"></script>
-  <script src="lib/gsap/gsap.min.js"></script>
-  <script src="lib/gsap/Flip.min.js"></script>
-  <script src="js/animaciones.js"></script>
+<!-- ============================================================
+     LOS TRES NIVELES
+     ============================================================ -->
+<section>
+  <h2>Una disciplina, tres escalas</h2>
+  <div class="niveles">
+    <div class="nivel n-equipo fragment" data-fragment-index="0">
+      <span class="nivel-tag">// equipo</span>
+      <span class="nivel-desc">Metodologías: Scrum, かんばん, TDD</span>
+      <div class="nivel n-sistema fragment" data-fragment-index="1">
+        <span class="nivel-tag">// sistema</span>
+        <span class="nivel-desc">Patrones y estilos arquitectónicos</span>
+        <div class="nivel n-codigo fragment" data-fragment-index="2">
+          <span class="nivel-tag">// código</span>
+          <span class="nivel-desc">SOLID, DRY, KISS, YAGNI</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     01. PRINCIPIOS DE CÓDIGO
+     ============================================================ -->
+<section class="seccion">
+  <p class="comentario">// 01.</p>
+  <h1 class="mono">Principios de código</h1>
+  <p class="pequeno">La clase · la función · el módulo</p>
+</section>
+
+<!-- SOLID: letras que se abren -->
+<section>
+  <h2>SOLID</h2>
+  <div class="solid">
+    <div class="letra"><span class="l">S</span><span class="nombre fragment">Responsabilidad Única<small>Una sola razón para cambiar</small></span></div>
+    <div class="letra"><span class="l">O</span><span class="nombre fragment">Abierto / Cerrado<small>Extender sin modificar</small></span></div>
+    <div class="letra"><span class="l">L</span><span class="nombre fragment">Sustitución de Liskov<small>La subclase no contradice al padre</small></span></div>
+    <div class="letra"><span class="l">I</span><span class="nombre fragment">Segregación de Interfaces<small>Interfaces pequeñas y específicas</small></span></div>
+    <div class="letra"><span class="l">D</span><span class="nombre fragment">Inversión de Dependencias<small>Depender de abstracciones</small></span></div>
+  </div>
+  <p class="pequeno fragment">Robert C. Martin, 2000 · Objetivo: bajo acoplamiento</p>
+</section>
+
+<!-- Código inicial con problemas resaltados -->
+<section>
+  <h3>El problema: <span class="mono rosa">GestorPedidos</span></h3>
+  <pre class="codigo-mediano"><code class="language-java" data-trim data-line-numbers="1-23|3-13|15-17|19-21">
+public class GestorPedidos {
+
+    public double calcularTotal(Pedido pedido) {
+        double total = 0;
+        for (Item item : pedido.getItems())
+            total += item.getPrecio() * item.getCantidad();
+        if (pedido.getTipoCliente().equals("VIP")) {
+            total *= 0.9;
+        } else if (pedido.getTipoCliente().equals("MAYORISTA")) {
+            total *= 0.85;
+        }
+        return total;
+    }
+
+    public void guardarEnBaseDeDatos(Pedido pedido) {
+        System.out.println("Guardando pedido " + pedido.getId());
+    }
+
+    public void enviarConfirmacion(Pedido pedido) {
+        System.out.println("Enviando confirmacion a " + pedido.getCliente());
+    }
+    // procesarPedido() llama a los tres...
+}
+  </code></pre>
+  <p class="pequeno">Tres razones para cambiar en una sola clase → viola <b class="rosa">S</b> · nuevo cliente = editar el <code>if</code> → viola <b class="rosa">O</b></p>
+</section>
+
+<!-- La clase se divide (animación principal) -->
+<section id="s-split">
+  <h3>La refactorización</h3>
+  <div class="stage" id="split-stage">
+    <svg class="split-lineas" viewBox="0 0 1100 480">
+      <line x1="550" y1="80" x2="190" y2="200"/>
+      <line x1="550" y1="80" x2="550" y2="200"/>
+      <line x1="550" y1="80" x2="910" y2="200"/>
+    </svg>
+    <div class="gp-shell"><span class="t-antes">GestorPedidos</span><span class="t-despues">GestorPedidos <small>(orquesta)</small></span></div>
+    <div class="gp-pieza gp-calc"><span class="t-antes">calcula total + descuentos</span><span class="t-despues">CalculadoraPedido</span><b class="badge">S</b></div>
+    <div class="gp-pieza gp-repo"><span class="t-antes">guarda en base de datos</span><span class="t-despues">RepositorioPedidos</span><b class="badge">S</b></div>
+    <div class="gp-pieza gp-noti"><span class="t-antes">envía el correo</span><span class="t-despues">NotificadorPedido</span><b class="badge">S</b></div>
+    <div class="gp-interfaz">
+      <span class="mono">«interface» EstrategiaDescuento</span><b class="badge badge-o">O</b>
+      <div class="chips"><span>DescuentoVIP</span><span>DescuentoMayorista</span><span>SinDescuento</span></div>
+    </div>
+    <div class="gp-d"><b class="badge badge-d">D</b> recibe sus colaboradores por constructor</div>
+  </div>
+  <span class="fragment disparador" data-anim="split" data-step="1"></span>
+  <span class="fragment disparador" data-anim="split" data-step="2"></span>
+</section>
+
+<!-- Código refactorizado (resumen) -->
+<section>
+  <h3>Después: cada clase cambia por una sola razón</h3>
+  <pre class="codigo-mediano"><code class="language-java" data-trim data-line-numbers="1-3|5-7|9-14|16-19">
+public interface EstrategiaDescuento {          // (D) abstracción
+    double aplicar(double total);
+}
+
+public class DescuentoVIP implements EstrategiaDescuento {   // (O)
+    public double aplicar(double total) { return total * 0.9; }
+}
+
+public class GestorPedidos {
+    public GestorPedidos(CalculadoraPedido calculadora,
+                         RepositorioPedidos repositorio,
+                         NotificadorPedido notificador) { ... }  // (D)
+    ...
+}
+
+// Nuevo descuento = clase nueva, sin tocar lo que ya funciona
+public class DescuentoEstudiante implements EstrategiaDescuento {
+    public double aplicar(double total) { return total * 0.85; }
+}
+  </code></pre>
+</section>
+
+<!-- Actividad 1 -->
+<section class="actividad">
+  <p class="comentario">// actividad</p>
+  <h2>Reto de extensión</h2>
+  <ol>
+    <li>Agreguen un <span class="mono verde">DescuentoEstudiante</span> (15 %)</li>
+    <li>Cambien la notificación de correo a <b>SMS</b></li>
+  </ol>
+  <p class="fragment pregunta">¿Cuántas líneas del código existente tuvieron que modificar?</p>
+</section>
+
+<!-- DRY -->
+<section id="s-dry">
+  <h2><span class="mono amarillo">DRY</span> · Don't Repeat Yourself</h2>
+  <p class="pequeno">Cada regla de negocio debe tener una única representación</p>
+  <div class="stage stage-bajo" id="dry-stage">
+    <div class="dry-card" data-i="0"><span class="archivo">Carrito.java</span><code>total *= <b class="valor">0.9</b>;</code><span class="estado"></span></div>
+    <div class="dry-card" data-i="1"><span class="archivo">Factura.java</span><code>total *= <b class="valor">0.9</b>;</code><span class="estado"></span></div>
+    <div class="dry-card" data-i="2"><span class="archivo">Reporte.java</span><code>total *= <b class="valor">0.9</b>;</code><span class="estado"></span></div>
+    <div class="dry-unico"><span class="archivo">DescuentoVIP.java</span><code>return total * <b>0.8</b>;</code><span class="estado ok">✓ un solo lugar</span></div>
+    <p class="dry-aviso">El descuento VIP cambia a 20 %…</p>
+  </div>
+  <span class="fragment disparador" data-anim="dry" data-step="1"></span>
+  <span class="fragment disparador" data-anim="dry" data-step="2"></span>
+</section>
+
+<!-- KISS y YAGNI -->
+<section id="s-yagni">
+  <div class="dos-col">
+    <div class="col-texto">
+      <h3><span class="mono amarillo">KISS</span></h3>
+      <p class="pequeno">Keep It Simple, Stupid — la solución más simple que funciona es preferible a una "elegante" pero compleja.</p>
+      <h3><span class="mono amarillo">YAGNI</span></h3>
+      <p class="pequeno">You Aren't Gonna Need It — no construyas funcionalidad para necesidades hipotéticas.</p>
+    </div>
+    <div class="col-demo">
+      <div class="yagni-caja">
+        <p class="mono yagni-titulo">class Calculadora</p>
+        <p class="mono metodo">sumar()</p>
+        <p class="mono metodo">restar()</p>
+        <p class="mono metodo extra">exportarPDF() <span class="comentario">// por si acaso</span></p>
+        <p class="mono metodo extra">soporteCripto() <span class="comentario">// por si acaso</span></p>
+        <p class="mono metodo extra">modoMultiplaneta() <span class="comentario">// algún día</span></p>
+        <p class="mono metodo extra">temaNavideño() <span class="comentario">// ¿?</span></p>
+        <div class="sello">YAGNI</div>
+      </div>
+    </div>
+  </div>
+  <span class="fragment disparador" data-anim="yagni" data-step="1"></span>
+  <span class="fragment disparador" data-anim="yagni" data-step="2"></span>
+</section>
+
+<!-- La tensión entre principios: balanza -->
+<section id="s-balanza">
+  <h2>La tensión entre principios</h2>
+  <svg class="balanza" viewBox="0 0 800 330">
+    <polygon points="400,140 360,300 440,300" class="b-base"/>
+    <g id="b-brazo">
+      <line x1="140" y1="140" x2="660" y2="140" class="b-viga"/>
+      <g id="b-izq">
+        <line x1="140" y1="140" x2="140" y2="200" class="b-cuerda"/>
+        <rect x="60" y="200" width="160" height="60" rx="10" class="b-plato"/>
+        <text x="140" y="240" class="b-texto" id="b-txt-izq">DRY</text>
+      </g>
+      <g id="b-der">
+        <line x1="660" y1="140" x2="660" y2="200" class="b-cuerda"/>
+        <rect x="580" y="200" width="160" height="60" rx="10" class="b-plato"/>
+        <text x="660" y="240" class="b-texto" id="b-txt-der">KISS</text>
+      </g>
+    </g>
+    <circle cx="400" cy="140" r="10" class="b-eje"/>
+  </svg>
+  <p class="pequeno balanza-nota" id="b-nota">Fusionar dos reglas parecidas puede costar más complejidad que la duplicación.</p>
+  <span class="fragment disparador" data-anim="balanza" data-step="1"></span>
+  <span class="fragment disparador" data-anim="balanza" data-step="2"></span>
+  <p class="pequeno fragment"><b>Son heurísticas para guiar el juicio, no reglas absolutas.</b></p>
+</section>
+
+<!-- Actividad 2 -->
+<section class="actividad">
+  <p class="comentario">// actividad</p>
+  <h2>Debate: ¿cuál versión es mejor?</h2>
+  <div class="dos-col">
+    <pre class="codigo-chico"><code class="language-java" data-trim>
+double precioVIP(double p) {
+    return p * 0.9;
+}
+double precioMayorista(double p) {
+    return p * 0.85;
+}
+    </code></pre>
+    <pre class="codigo-chico"><code class="language-java" data-trim>
+double precio(double p, String tipo,
+              boolean temporada,
+              boolean redondear) {
+    // 20 líneas de if/else...
+}
+    </code></pre>
+  </div>
+  <p class="fragment pregunta">Voten y defiendan: ¿simple y duplicado, o DRY y complejo?</p>
+</section>
+
+<!-- Cohesión y acoplamiento -->
+<section id="s-acople">
+  <h2>Cohesión y acoplamiento</h2>
+  <svg class="acople" id="acople-svg" viewBox="0 0 1000 400"></svg>
+  <div class="acople-etiquetas">
+    <span id="acople-e1" class="rosa">Acoplamiento alto · Cohesión baja</span>
+  </div>
+  <span class="fragment disparador" data-anim="acople" data-step="1"></span>
+</section>
+
+<!-- Patrones de diseño -->
+<section>
+  <h2>Patrones de diseño <small class="pequeno">(Gang of Four, 1994)</small></h2>
+  <div class="patrones">
+    <div class="patron fragment"><p class="comentario">// creacionales</p><p class="mono">Singleton · Factory · Builder</p><p class="pequeno">Cómo se crean los objetos</p></div>
+    <div class="patron fragment"><p class="comentario">// estructurales</p><p class="mono">Adapter · Decorator · Facade</p><p class="pequeno">Cómo se combinan</p></div>
+    <div class="patron patron-destacado fragment"><p class="comentario">// comportamiento</p><p class="mono"><b class="verde">Strategy</b> · Observer · State</p><p class="pequeno">Cómo interactúan</p></div>
+  </div>
+  <p class="fragment pequeno"><span class="mono verde">EstrategiaDescuento</span> ya era el patrón <b>Strategy</b>: intercambiar algoritmos en tiempo de ejecución.</p>
+</section>
+
+<!-- ZOOM OUT 1: código → sistema -->
+<section data-auto-animate>
+  <p class="comentario" data-id="zoom-titulo">// zoom out…</p>
+  <div class="zoom-codigo" data-id="zoom1">
+    <pre class="mono">class CalculadoraPedido {
+  double calcularTotal(...)
+}</pre>
+  </div>
+</section>
+
+<!-- ============================================================
+     02. ARQUITECTURA
+     ============================================================ -->
+<section data-auto-animate class="seccion">
+  <p class="comentario" data-id="zoom-titulo">// 02.</p>
+  <h1 class="mono">Arquitectura de software</h1>
+  <div class="mini-sistema">
+    <div class="mini-mod">Usuarios</div>
+    <div class="mini-mod">Catálogo</div>
+    <div class="zoom-codigo pequeno-zoom" data-id="zoom1">
+      <pre class="mono">class CalculadoraPedido {
+  double calcularTotal(...)
+}</pre>
+    </div>
+    <div class="mini-mod">Pagos</div>
+    <div class="mini-mod">Envíos</div>
+  </div>
+</section>
+
+<!-- Estilos arquitectónicos -->
+<section>
+  <h2>Estilos arquitectónicos</h2>
+  <div class="estilos">
+    <div class="estilo fragment"><h4>Monolito</h4><p>Todo se construye y despliega como una unidad.</p><p class="pro">+ simple al inicio</p><p class="contra">− todo cambio redespliega todo</p></div>
+    <div class="estilo fragment"><h4>En capas</h4><p>Presentación → lógica → datos.</p><p class="pro">+ separación clara</p><p class="contra">− sigue siendo una unidad</p></div>
+    <div class="estilo fragment"><h4>Hexagonal</h4><p>Núcleo aislado por puertos y adaptadores.</p><p class="pro">+ núcleo testeable</p><p class="contra">− capa extra de abstracción</p></div>
+    <div class="estilo fragment"><h4>Microservicios</h4><p>Servicios pequeños desplegados por separado.</p><p class="pro">+ escalan por separado</p><p class="contra">− complejidad operativa</p></div>
+  </div>
+</section>
+
+<!-- Netflix -->
+<section id="s-netflix">
+  <h2>Netflix <small class="pequeno">2008 → 2012</small></h2>
+  <div class="stage stage-bajo" id="netflix-stage">
+    <div class="bloque-etiqueta">Monolito</div>
+  </div>
+  <p class="pequeno" id="netflix-nota">2008: una base de datos corrupta detiene los envíos de DVD por tres días.</p>
+  <span class="fragment disparador" data-anim="netflix" data-step="1"></span>
+</section>
+
+<!-- Shopify -->
+<section id="s-shopify">
+  <h2>Shopify <small class="pequeno">monolito modular</small></h2>
+  <div class="stage stage-bajo" id="shopify-stage">
+    <div class="bloque-etiqueta">Monolito (Ruby on Rails)</div>
+  </div>
+  <p class="pequeno" id="shopify-nota">Uno de los monolitos de Rails más grandes del mundo… y decidió no romperlo.</p>
+  <span class="fragment disparador" data-anim="shopify" data-step="1"></span>
+  <p class="fragment pregunta">No existe una arquitectura "correcta" universal.</p>
+</section>
+
+<!-- ZOOM OUT 2: sistema → equipo -->
+<section data-auto-animate>
+  <p class="comentario" data-id="zoom-titulo2">// zoom out…</p>
+  <div class="zoom-sistema" data-id="zoom2">
+    <div>Usuarios</div><div>Catálogo</div><div>Pedidos</div>
+    <div>Pagos</div><div>Envíos</div><div>Búsqueda</div>
+  </div>
+</section>
+
+<!-- ============================================================
+     03. METODOLOGÍAS
+     ============================================================ -->
+<section data-auto-animate class="seccion">
+  <p class="comentario" data-id="zoom-titulo2">// 03.</p>
+  <h1 class="mono">Metodologías de desarrollo</h1>
+  <div class="mini-tablero">
+    <div class="mini-col"><span>Por hacer</span><div class="mini-tarjeta"></div><div class="mini-tarjeta"></div></div>
+    <div class="mini-col"><span>En curso</span>
+      <div class="zoom-sistema zoom-tarjeta" data-id="zoom2">
+        <div>Usuarios</div><div>Catálogo</div><div>Pedidos</div>
+        <div>Pagos</div><div>Envíos</div><div>Búsqueda</div>
+      </div>
+    </div>
+    <div class="mini-col"><span>Hecho</span><div class="mini-tarjeta"></div></div>
+  </div>
+</section>
+
+<!-- Scrum -->
+<section id="s-scrum">
+  <h2>Scrum</h2>
+  <div class="tablero-sup">
+    <span class="reloj mono" id="scrum-reloj">Sprint 1 · día 0/10</span>
+    <span class="pequeno">Product Owner · Scrum Master · Equipo</span>
+  </div>
+  <div class="tablero" id="scrum-tablero">
+    <div class="columna"><span class="col-titulo">Sprint backlog</span></div>
+    <div class="columna"><span class="col-titulo">En curso</span></div>
+    <div class="columna"><span class="col-titulo">Hecho</span></div>
+  </div>
+  <p class="pequeno">Iteraciones fijas · el trabajo se compromete en bloque al inicio del sprint</p>
+</section>
+
+<!-- かんばん -->
+<section id="s-kanban">
+  <h2 class="kanban-titulo"><span class="k k1">看板</span><span class="k k2">かんばん</span><span class="k k3">Kanban</span></h2>
+  <p class="pequeno kanban-sub">"letrero / tarjeta" · Toyota, かんばん方式</p>
+  <div class="tablero" id="kanban-tablero">
+    <div class="columna"><span class="col-titulo">Por hacer</span></div>
+    <div class="columna"><span class="col-titulo">En curso <b class="wip">WIP máx. 2</b></span></div>
+    <div class="columna"><span class="col-titulo">Hecho</span></div>
+  </div>
+  <p class="pequeno">Flujo continuo · sin iteraciones fijas · límite de trabajo en curso</p>
+</section>
+
+<!-- Scrum vs Kanban -->
+<section>
+  <h2>Scrum vs. かんばん</h2>
+  <table class="tabla">
+    <thead><tr><th></th><th>Scrum</th><th>かんばん</th></tr></thead>
+    <tbody>
+      <tr class="fragment"><td>Ciclo</td><td>Sprints fijos</td><td>Flujo continuo</td></tr>
+      <tr class="fragment"><td>Roles</td><td>PO, Scrum Master, equipo</td><td>Sin roles obligatorios</td></tr>
+      <tr class="fragment"><td>Cambios</td><td>Al terminar el sprint</td><td>En cualquier momento</td></tr>
+      <tr class="fragment"><td>Métricas</td><td>Velocidad, burndown</td><td>Cycle time, lead time</td></tr>
+      <tr class="fragment"><td>Ideal para</td><td>Objetivos claros</td><td>Trabajo impredecible</td></tr>
+    </tbody>
+  </table>
+  <p class="pequeno fragment">Híbrido común: <b>Scrumban</b></p>
+</section>
+
+<!-- TDD -->
+<section id="s-tdd">
+  <h2>TDD · Red → Green → Refactor</h2>
+  <div class="dos-col">
+    <svg class="tdd-ciclo" viewBox="0 0 400 400">
+      <circle cx="200" cy="200" r="140" class="tdd-anillo"/>
+      <g id="tdd-flecha"><polygon points="200,48 216,64 200,80" class="tdd-punta"/></g>
+      <g class="tdd-nodo" id="tdd-red"><circle cx="200" cy="60" r="52"/><text x="200" y="68">Red</text></g>
+      <g class="tdd-nodo" id="tdd-green"><circle cx="321" cy="270" r="52"/><text x="321" y="278">Green</text></g>
+      <g class="tdd-nodo" id="tdd-ref"><circle cx="79" cy="270" r="52"/><text x="79" y="270">Refactor</text><text x="79" y="296" class="kaizen">改善</text></g>
+    </svg>
+    <div class="tdd-pasos">
+      <p class="fragment"><span class="rosa">✗</span> <span class="mono">esPar(4) == true</span> <span class="comentario">// falla: no existe</span></p>
+      <p class="fragment"><span class="verde">✓</span> <span class="mono">return true;</span> <span class="comentario">// código mínimo</span></p>
+      <p class="fragment"><span class="rosa">✗</span> <span class="mono">esPar(3) == false</span> <span class="comentario">// nueva prueba</span></p>
+      <p class="fragment"><span class="verde">✓</span> <span class="mono">return n % 2 == 0;</span></p>
+      <p class="fragment pequeno"><b>改善 (kaizen)</b>: mejora continua, con las pruebas como red de seguridad.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ZOOM IN: conclusiones -->
+<section data-auto-animate>
+  <p class="comentario">// zoom in…</p>
+  <div class="mini-tablero">
+    <div class="mini-col"><span>Por hacer</span><div class="mini-tarjeta"></div></div>
+    <div class="mini-col"><span>En curso</span><div class="tarjeta-final" data-id="final"></div></div>
+    <div class="mini-col"><span>Hecho</span><div class="mini-tarjeta"></div><div class="mini-tarjeta"></div></div>
+  </div>
+</section>
+
+<section data-auto-animate>
+  <div class="tarjeta-final grande" data-id="final">
+    <p class="comentario">// conclusiones</p>
+    <ul>
+      <li class="fragment">Código, arquitectura y metodología son <b>la misma disciplina</b> en tres escalas.</li>
+      <li class="fragment">Ningún principio es absoluto: hay que reconocer sus <b>tensiones</b>.</li>
+      <li class="fragment">Netflix y Shopify: mismos principios, <b>arquitecturas distintas</b>.</li>
+      <li class="fragment">La IA cambia las herramientas, <b>no los criterios</b> de calidad.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Cierre -->
+<section>
+  <h2>¡Gracias!</h2>
+  <img src="img/qr.svg" alt="Código QR de la presentación" class="qr">
+  <p class="pequeno mono">jbest0.github.io/principios-desarrollo-software</p>
+</section>
+
+</div>
+</div>
+
+<script src="lib/reveal/reveal.js"></script>
+<script src="lib/reveal/plugin/highlight.js"></script>
+<script src="lib/reveal/plugin/notes.js"></script>
+<script src="lib/reveal/plugin/zoom.js"></script>
+<script src="lib/gsap/gsap.min.js"></script>
+<script src="js/animaciones.js"></script>
 </body>
 </html>
