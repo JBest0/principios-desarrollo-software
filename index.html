@@ -130,7 +130,7 @@ public class GestorPedidos {
 <!-- Código refactorizado (resumen) -->
 <section>
   <h3>Después: cada clase cambia por una sola razón</h3>
-  <pre class="codigo-mediano"><code class="language-java" data-trim data-line-numbers="1-3|5-7|9-14|16-19">
+  <pre class="codigo-mediano"><code class="language-java" data-trim data-line-numbers="1-3|5-7|9-14">
 public interface EstrategiaDescuento {          // (D) abstracción
     double aplicar(double total);
 }
@@ -146,22 +146,99 @@ public class GestorPedidos {
     ...
 }
 
-// Nuevo descuento = clase nueva, sin tocar lo que ya funciona
-public class DescuentoEstudiante implements EstrategiaDescuento {
-    public double aplicar(double total) { return total * 0.85; }
-}
   </code></pre>
 </section>
 
-<!-- Actividad 1 -->
+<!-- Actividad 1: reto de extensión -->
 <section class="actividad">
   <p class="comentario">// actividad</p>
-  <h2>Reto de extensión</h2>
-  <ol>
-    <li>Agreguen un <span class="mono verde">DescuentoEstudiante</span> (15 %)</li>
-    <li>Cambien la notificación de correo a <b>SMS</b></li>
-  </ol>
-  <p class="fragment pregunta">¿Cuántas líneas del código existente tuvieron que modificar?</p>
+  <h3>Reto: agreguen un <span class="mono verde">DescuentoEstudiante</span> (15 %) en ambas versiones</h3>
+  <div class="dos-col reto">
+    <div>
+      <p class="etiqueta-version rosa">Versión A · viola S y O</p>
+      <pre class="codigo-reto"><code class="language-java" data-trim>
+public class GestorPedidos {
+  public double calcularTotal(Pedido pedido) {
+    double total = 0;
+    for (Item item : pedido.getItems())
+      total += item.getPrecio() * item.getCantidad();
+    if (pedido.getTipoCliente().equals("VIP")) {
+      total *= 0.9;
+    } else if (pedido.getTipoCliente().equals("MAYORISTA")) {
+      total *= 0.85;
+    }
+    return total;
+  }
+  // + guardarEnBaseDeDatos(), enviarConfirmacion()...
+}
+      </code></pre>
+    </div>
+    <div>
+      <p class="etiqueta-version verde">Versión B · aplica S, O y D</p>
+      <pre class="codigo-reto"><code class="language-java" data-trim>
+public interface EstrategiaDescuento {
+  double aplicar(double total);
+}
+
+public class DescuentoVIP implements EstrategiaDescuento {
+  public double aplicar(double total) { return total * 0.9; }
+}
+
+public class CalculadoraPedido {
+  public double calcularTotal(Pedido p,
+                              EstrategiaDescuento d) {
+    double total = 0;
+    for (Item item : p.getItems())
+      total += item.getPrecio() * item.getCantidad();
+    return d.aplicar(total);
+  }
+}
+      </code></pre>
+    </div>
+  </div>
+  <p class="fragment pregunta">¿Cuántas líneas del código <b>existente</b> tuvieron que modificar en cada versión?</p>
+</section>
+
+<!-- Solución del reto -->
+<section class="actividad">
+  <p class="comentario">// solución</p>
+  <h3>El mismo cambio, dos dificultades</h3>
+  <div class="dos-col reto">
+    <div>
+      <p class="etiqueta-version rosa">Versión A · se edita un método ya probado</p>
+      <pre class="codigo-reto con-numeros"><code class="language-java" data-trim data-line-numbers="9-10">
+public double calcularTotal(Pedido pedido) {
+  double total = 0;
+  for (Item item : pedido.getItems())
+    total += item.getPrecio() * item.getCantidad();
+  if (pedido.getTipoCliente().equals("VIP")) {
+    total *= 0.9;
+  } else if (pedido.getTipoCliente().equals("MAYORISTA")) {
+    total *= 0.85;
+  } else if (pedido.getTipoCliente().equals("ESTUDIANTE")) {
+    total *= 0.85;
+  }
+  return total;
+}
+      </code></pre>
+      <p class="resultado rosa">Se toca el <code>if</code> que ya funcionaba · hay que volver a probar todo</p>
+    </div>
+    <div>
+      <p class="etiqueta-version verde">Versión B · solo se agrega una clase</p>
+      <pre class="codigo-reto con-numeros"><code class="language-java" data-trim data-line-numbers="1-6">
+public class DescuentoEstudiante
+    implements EstrategiaDescuento {
+  public double aplicar(double total) {
+    return total * 0.85;
+  }
+}
+
+// CalculadoraPedido, DescuentoVIP
+// y los demás: sin cambios
+      </code></pre>
+      <p class="resultado verde">0 líneas existentes modificadas · principio Abierto/Cerrado</p>
+    </div>
+  </div>
 </section>
 
 <!-- DRY -->
@@ -205,6 +282,30 @@ public class DescuentoEstudiante implements EstrategiaDescuento {
   <span class="fragment disparador" data-anim="yagni" data-step="2"></span>
 </section>
 
+<!-- Actividad 2 -->
+<section class="actividad">
+  <p class="comentario">// actividad</p>
+  <h2>Debate: ¿cuál versión es mejor?</h2>
+  <div class="dos-col">
+    <pre class="codigo-chico"><code class="language-java" data-trim>
+double precioVIP(double p) {
+    return p * 0.9;
+}
+double precioMayorista(double p) {
+    return p * 0.85;
+}
+    </code></pre>
+    <pre class="codigo-chico"><code class="language-java" data-trim>
+double precio(double p, String tipo,
+              boolean temporada,
+              boolean redondear) {
+    // 20 líneas de if/else...
+}
+    </code></pre>
+  </div>
+  <p class="fragment pregunta">Voten y defiendan: ¿simple y duplicado, o DRY y complejo?</p>
+</section>
+
 <!-- La tensión entre principios: balanza -->
 <section id="s-balanza">
   <h2>La tensión entre principios</h2>
@@ -229,30 +330,6 @@ public class DescuentoEstudiante implements EstrategiaDescuento {
   <span class="fragment disparador" data-anim="balanza" data-step="1"></span>
   <span class="fragment disparador" data-anim="balanza" data-step="2"></span>
   <p class="pequeno fragment"><b>Son heurísticas para guiar el juicio, no reglas absolutas.</b></p>
-</section>
-
-<!-- Actividad 2 -->
-<section class="actividad">
-  <p class="comentario">// actividad</p>
-  <h2>Debate: ¿cuál versión es mejor?</h2>
-  <div class="dos-col">
-    <pre class="codigo-chico"><code class="language-java" data-trim>
-double precioVIP(double p) {
-    return p * 0.9;
-}
-double precioMayorista(double p) {
-    return p * 0.85;
-}
-    </code></pre>
-    <pre class="codigo-chico"><code class="language-java" data-trim>
-double precio(double p, String tipo,
-              boolean temporada,
-              boolean redondear) {
-    // 20 líneas de if/else...
-}
-    </code></pre>
-  </div>
-  <p class="fragment pregunta">Voten y defiendan: ¿simple y duplicado, o DRY y complejo?</p>
 </section>
 
 <!-- Cohesión y acoplamiento -->

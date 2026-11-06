@@ -239,3 +239,12 @@
 
 /* ---------- Cierre ---------- */
 .reveal img.qr { width: 260px; height: 260px; border-radius: 12px; margin: 10px auto; }
+
+/* ---------- Reto de extensión ---------- */
+.dos-col.reto { align-items: flex-start; gap: 24px; }
+.dos-col.reto > div { min-width: 0; }
+.reveal pre.codigo-reto { font-size: 0.4em; margin: 0; }
+.reveal pre.codigo-reto.con-numeros { font-size: 0.37em; }
+.reveal .etiqueta-version { font-family: var(--mono); font-size: 0.5em; font-weight: 700; margin: 6px 0; text-align: left; }
+.reveal .resultado { font-size: 0.5em; font-weight: 700; margin: 10px 0 0; text-align: left; }
+.reveal .actividad h3 { font-size: 0.95em; }
