@@ -241,6 +241,35 @@ public class DescuentoEstudiante
   </div>
 </section>
 
+<!-- Demo en vivo (guion completo en demo/GUION.md) -->
+<section class="actividad">
+  <p class="comentario">// demo en vivo</p>
+  <h2>Llega un requerimiento nuevo…</h2>
+  <div class="fases">
+    <div class="fase fragment"><span class="fase-num">0</span><p><b>Mismo comportamiento</b><br><span class="pequeno">Las dos versiones imprimen 97200.0</span></p></div>
+    <div class="fase fragment"><span class="fase-num">1</span><p><b>"Descuento de estudiante"</b><br><span class="pequeno">principio O</span></p></div>
+    <div class="fase fragment"><span class="fase-num">2</span><p><b>"Registrar cada pedido en un log"</b><br><span class="pequeno">principio S</span></p></div>
+    <div class="fase fragment"><span class="fase-num">3</span><p><b>"SMS en vez de correo"</b><br><span class="pequeno">principio D</span></p></div>
+  </div>
+  <p class="pequeno comentario">→ VS Code · carpeta demo/</p>
+</section>
+
+<!-- Marcador final de la demo -->
+<section>
+  <h2>Marcador final</h2>
+  <table class="tabla marcador">
+    <thead><tr><th></th><th class="rosa">Versión A</th><th class="verde">Versión B</th></tr></thead>
+    <tbody>
+      <tr class="fragment"><td>Estudiante</td><td>edita <code>GestorPedidos</code> y rompe VIP</td><td>1 clase nueva · 0 líneas existentes</td></tr>
+      <tr class="fragment"><td>Log</td><td>1 línea en <code>GestorPedidos</code></td><td>1 línea en <code>RepositorioPedidos</code></td></tr>
+      <tr class="fragment"><td>SMS</td><td>1 línea en <code>GestorPedidos</code></td><td>2 archivos existentes + 2 nuevos</td></tr>
+      <tr class="fragment"><td>WhatsApp</td><td>editar <code>GestorPedidos</code> otra vez</td><td>0 líneas existentes</td></tr>
+      <tr class="fragment"><td>Pruebas rotas</td><td class="rosa">1</td><td class="verde">0</td></tr>
+    </tbody>
+  </table>
+  <p class="fragment pregunta">Un buen diseño no hace gratis todos los cambios: hace que caigan en un solo lugar y no rompan lo que ya funcionaba.</p>
+</section>
+
 <!-- DRY -->
 <section id="s-dry">
   <h2><span class="mono amarillo">DRY</span> · Don't Repeat Yourself</h2>
@@ -411,7 +440,33 @@ double precio(double p, String tipo,
   </div>
   <p class="pequeno" id="shopify-nota">Uno de los monolitos de Rails más grandes del mundo… y decidió no romperlo.</p>
   <span class="fragment disparador" data-anim="shopify" data-step="1"></span>
-  <p class="fragment pregunta">No existe una arquitectura "correcta" universal.</p>
+</section>
+
+<!-- Simulador interactivo: monolito vs. microservicios -->
+<section id="s-simulador">
+  <h3 class="sim-titulo">Simulador: monolito vs. microservicios <small>valores ilustrativos</small></h3>
+  <div class="sim-botones" data-prevent-swipe>
+    <button data-esc="romper">💥 Romper un componente</button>
+    <button data-esc="estreno">📈 Estreno de una serie</button>
+    <button data-esc="desplegar">🚀 Desplegar Facturación</button>
+    <button data-esc="depurar">🔍 Encontrar un error</button>
+    <button data-esc="shopify">🧩 Modo Shopify</button>
+    <button data-esc="reiniciar">↺ Reiniciar</button>
+  </div>
+  <p class="sim-mensaje" id="sim-mensaje"></p>
+  <div class="sim-paneles" data-prevent-swipe>
+    <div class="sim-panel" id="sim-mono">
+      <p class="sim-nombre">Monolito</p>
+      <svg viewBox="0 0 560 300"></svg>
+      <div class="sim-metricas"></div>
+    </div>
+    <div class="sim-panel" id="sim-micro">
+      <p class="sim-nombre">Microservicios</p>
+      <svg viewBox="0 0 560 300"></svg>
+      <div class="sim-metricas"></div>
+    </div>
+  </div>
+  <p class="fragment sim-conclusion">No existe una arquitectura "correcta" universal: cada una cambia unos problemas por otros.</p>
 </section>
 
 <!-- ZOOM OUT 2: sistema → equipo -->
@@ -542,6 +597,7 @@ double precio(double p, String tipo,
 <script src="lib/reveal/plugin/notes.js"></script>
 <script src="lib/reveal/plugin/zoom.js"></script>
 <script src="lib/gsap/gsap.min.js"></script>
+<script src="js/simulador.js"></script>
 <script src="js/animaciones.js"></script>
 </body>
 </html>

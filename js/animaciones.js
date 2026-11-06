@@ -411,6 +411,12 @@ automaticas['s-tdd'] = () => {
   return tl;
 };
 
+// --- Simulador de arquitectura (js/simulador.js) -------------
+automaticas['s-simulador'] = () => {
+  Simulador.iniciar();
+  return { kill: () => Simulador.detener() };
+};
+
 // ----------------------------------------------------------
 // 3. Conexión con los eventos de reveal.js
 // ----------------------------------------------------------
