@@ -1,0 +1,29 @@
+/* Estilos propios de la presentación */
+:root {
+  --rojo: #e74c3c;
+  --verde: #2ecc71;
+  --azul: #3498db;
+}
+
+.reveal h1 { font-size: 2.2em; }
+.reveal .subtitulo { color: var(--azul); font-size: 1.1em; }
+.reveal .pequeno { font-size: 0.6em; opacity: 0.8; }
+
+/* Código legible en proyector */
+.reveal pre { width: 100%; font-size: 0.5em; }
+.reveal pre code { max-height: 560px; }
+
+/* Cajas para diagramas de arquitectura */
+.cajas { display: flex; gap: 20px; justify-content: center; margin-top: 40px; }
+.caja {
+  background: var(--azul); color: #fff; border-radius: 10px;
+  padding: 30px 24px; font-size: 0.7em; min-width: 180px;
+}
+.caja.grande { min-width: 640px; padding: 80px 24px; font-size: 1em; }
+
+/* Ciclo TDD */
+.ciclo { display: flex; gap: 30px; justify-content: center; margin-top: 60px; }
+.paso { padding: 20px 36px; border-radius: 50px; color: #fff; font-weight: bold; opacity: 0.25; }
+.paso.rojo { background: var(--rojo); }
+.paso.verde { background: var(--verde); }
+.paso.azul { background: var(--azul); }

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Principios de Desarrollo de Software</title>
+
+  <link rel="stylesheet" href="lib/reveal/reset.css">
+  <link rel="stylesheet" href="lib/reveal/reveal.css">
+  <link rel="stylesheet" href="lib/reveal/theme/black.css">
+  <link rel="stylesheet" href="lib/reveal/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Portada -->
+      <section>
+        <h1>Principios de Desarrollo de Software</h1>
+        <p class="subtitulo">Código · Arquitectura · Metodologías</p>
+        <p class="pequeno">CE1105 — Principios de Modelado en Ingeniería</p>
+        <p class="pequeno">Sebastián Leiva Salas · Emmanuel Rojas Navarro · Job Jiménez Sandí</p>
+      </section>
+
+      <!-- Agenda -->
+      <section>
+        <h2>Agenda</h2>
+        <ol>
+          <li class="fragment">Los tres niveles</li>
+          <li class="fragment">SOLID y el ejemplo GestorPedidos</li>
+          <li class="fragment">DRY, KISS, YAGNI y sus tensiones</li>
+          <li class="fragment">Cohesión, acoplamiento y Strategy</li>
+          <li class="fragment">Estilos arquitectónicos: Netflix vs. Shopify</li>
+          <li class="fragment">Scrum vs. Kanban y TDD</li>
+          <li class="fragment">Conclusiones</li>
+        </ol>
+      </section>
+
+      <!-- Demo: resaltado de código por pasos -->
+      <section>
+        <h3>Demo: código resaltado por pasos</h3>
+        <pre><code class="language-java" data-trim data-line-numbers="1-11|2-5|6-9">
+public double calcularTotal(Pedido pedido) {
+    double total = 0;
+    for (Item item : pedido.getItems()) {
+        total += item.getPrecio() * item.getCantidad();
+    }
+    if (pedido.getTipoCliente().equals("VIP")) {
+        total *= 0.9;
+    } else if (pedido.getTipoCliente().equals("MAYORISTA")) {
+        total *= 0.85;
+    }
+    return total;
+}
+        </code></pre>
+      </section>
+
+      <!-- Demo: auto-animate (monolito -> microservicios) -->
+      <section data-auto-animate>
+        <h3>Demo: Auto-Animate</h3>
+        <div class="cajas">
+          <div class="caja grande" data-id="sistema">Monolito</div>
+        </div>
+      </section>
+      <section data-auto-animate>
+        <h3>Demo: Auto-Animate</h3>
+        <div class="cajas">
+          <div class="caja" data-id="sistema">Reproducción</div>
+          <div class="caja">Recomendaciones</div>
+          <div class="caja">Facturación</div>
+        </div>
+      </section>
+
+      <!-- Demo: animación con GSAP -->
+      <section id="demo-tdd">
+        <h3>Demo: animación con GSAP</h3>
+        <div class="ciclo">
+          <span class="paso rojo">Red</span>
+          <span class="paso verde">Green</span>
+          <span class="paso azul">Refactor</span>
+        </div>
+      </section>
+
+      <!-- Cierre -->
+      <section>
+        <h2>¡Gracias!</h2>
+        <p class="pequeno">Presentación disponible en GitHub Pages</p>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="lib/reveal/reveal.js"></script>
+  <script src="lib/reveal/plugin/highlight.js"></script>
+  <script src="lib/reveal/plugin/notes.js"></script>
+  <script src="lib/reveal/plugin/zoom.js"></script>
+  <script src="lib/gsap/gsap.min.js"></script>
+  <script src="lib/gsap/Flip.min.js"></script>
+  <script src="js/animaciones.js"></script>
+</body>
+</html>
