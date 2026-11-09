@@ -420,6 +420,52 @@ automaticas['s-simulador'] = () => {
 // ----------------------------------------------------------
 // 3. Conexión con los eventos de reveal.js
 // ----------------------------------------------------------
+// --- Ejemplos SOLID: código mal / bien -----------------------
+// Entrada (automática): aparece el código malo y luego el bueno, línea por línea.
+// Paso 1 (fragmento): el código malo marca dónde está el error y explica por qué.
+const ejemploPaso = (id) => {
+  const raiz = $(id);
+  const mal = $('.ej-mal', raiz);
+  const errs = $$('.ln.err', mal);
+  const resto = $$('.ln:not(.err)', mal);
+  const nota = $('.ej-nota', mal);
+  return (paso, inst) => {
+    const d = dur(inst, 1.0);
+    gsap.killTweensOf([...errs, ...resto, nota]);
+    if (paso === 0) {
+      gsap.to(errs, { backgroundColor: 'rgba(249,38,114,0)', borderLeftColor: 'rgba(249,38,114,0)', duration: d });
+      gsap.to(resto, { filter: 'brightness(1)', duration: d });
+      gsap.to(nota, { opacity: 0, y: 8, duration: dur(inst, 0.5) });
+      return;
+    }
+    gsap.to(resto, { filter: 'brightness(0.4)', duration: d, ease: 'power2.inOut' });
+    gsap.to(errs, { backgroundColor: 'rgba(249,38,114,0.28)', borderLeftColor: C.rosa,
+      duration: d, stagger: inst ? 0 : 0.25, ease: 'power2.inOut' });
+    if (!inst) gsap.fromTo(errs, { x: -10 }, { x: 0, duration: 0.8, ease: 'elastic.out(3, 0.25)', stagger: 0.25, delay: 0.3 });
+    gsap.fromTo(nota, { opacity: inst ? 1 : 0, y: inst ? 0 : 8 },
+      { opacity: 1, y: 0, duration: dur(inst, 0.8), delay: inst ? 0 : 0.9 });
+  };
+};
+const ejemploEntrada = (id) => () => {
+  const raiz = $(id);
+  const mal = $('.ej-mal', raiz), bien = $('.ej-bien', raiz);
+  const lMal = $$('.ln', mal), lBien = $$('.ln', bien);
+  const notaBien = $('.ej-nota', bien);
+  gsap.set([mal, bien], { opacity: 0, y: 30 });
+  gsap.set([...lMal, ...lBien], { opacity: 0, x: -14 });
+  gsap.set(notaBien, { opacity: 0 });
+  return gsap.timeline({ delay: 0.5 })
+    .to(mal, { opacity: 1, y: 0, duration: 1.0, ease: 'power2.out' })
+    .to(lMal, { opacity: 1, x: 0, stagger: 0.14, duration: 0.6, ease: 'power2.out' }, '<0.3')
+    .to(bien, { opacity: 1, y: 0, duration: 1.0, ease: 'power2.out' }, '+=0.3')
+    .to(lBien, { opacity: 1, x: 0, stagger: 0.14, duration: 0.6, ease: 'power2.out' }, '<0.3')
+    .to(notaBien, { opacity: 1, duration: 0.8 });
+};
+['s', 'o', 'l', 'i', 'd'].forEach((k) => {
+  pasos['ej-' + k] = ejemploPaso('#ej-' + k);
+  automaticas['ej-' + k] = ejemploEntrada('#ej-' + k);
+});
+
 const pasoVisible = (slide, nombre) =>
   $$(`.disparador[data-anim="${nombre}"].visible`, slide)
     .reduce((max, el) => Math.max(max, +el.dataset.step), 0);

@@ -73,6 +73,197 @@
   <p class="pequeno fragment">Robert C. Martin, 2000 · Objetivo: bajo acoplamiento</p>
 </section>
 
+<!-- S: ejemplo mal / bien -->
+<section id="ej-s" class="ejemplo">
+  <h3><span class="mono rosa">S</span> · Responsabilidad Única</h3>
+  <div class="ej-stage">
+      <div class="ej-card ej-mal">
+        <div class="ej-barra"><span>✗ Mal</span><span class="ej-sub">3 razones para cambiar</span></div>
+        <div class="ej-codigo">
+          <div class="ln"><span class="k">public</span> <span class="k">class</span> <span class="t">Factura</span> {</div>
+          <div class="ln">  <span class="k">double</span> <span class="n">calcularTotal</span>() { ... }</div>
+          <div class="ln err">  <span class="k">void</span> <span class="n">guardarEnBD</span>() { ... }</div>
+          <div class="ln err">  <span class="k">void</span> <span class="n">imprimir</span>() { ... }</div>
+          <div class="ln">}</div>
+        </div>
+        <p class="ej-nota">Calcula, guarda e imprime: <b>tres razones para cambiar</b> en una sola clase.</p>
+      </div>
+      <div class="ej-card ej-bien">
+        <div class="ej-barra"><span>✓ Bien</span><span class="ej-sub">1 razón por clase</span></div>
+        <div class="ej-codigo">
+          <div class="ln"><span class="k">class</span> <span class="t">Factura</span> {</div>
+          <div class="ln">  <span class="k">double</span> <span class="n">calcularTotal</span>() { ... }</div>
+          <div class="ln">}</div>
+          <div class="ln"><span class="k">class</span> <span class="t">FacturaRepositorio</span> {</div>
+          <div class="ln">  <span class="k">void</span> <span class="n">guardar</span>(<span class="t">Factura</span> f) { ... }</div>
+          <div class="ln">}</div>
+          <div class="ln"><span class="k">class</span> <span class="t">FacturaPrinter</span> {</div>
+          <div class="ln">  <span class="k">void</span> <span class="n">imprimir</span>(<span class="t">Factura</span> f) { ... }</div>
+          <div class="ln">}</div>
+        </div>
+        <p class="ej-nota">Cada clase cambia por <b>una sola razón</b>.</p>
+      </div>
+  </div>
+  <span class="fragment disparador" data-anim="ej-s" data-step="1"></span>
+</section>
+
+<!-- O: ejemplo mal / bien -->
+<section id="ej-o" class="ejemplo">
+  <h3><span class="mono rosa">O</span> · Abierto / Cerrado</h3>
+  <div class="ej-stage">
+      <div class="ej-card ej-mal">
+        <div class="ej-barra"><span>✗ Mal</span><span class="ej-sub">editar para extender</span></div>
+        <div class="ej-codigo">
+          <div class="ln"><span class="k">double</span> <span class="n">aplicar</span>(<span class="t">String</span> tipo, <span class="k">double</span> t) {</div>
+          <div class="ln err">  <span class="k">if</span> (tipo.<span class="n">equals</span>(<span class="s">&quot;VIP&quot;</span>))</div>
+          <div class="ln err">    <span class="k">return</span> t * <span class="m">0.9</span>;</div>
+          <div class="ln err">  <span class="k">if</span> (tipo.<span class="n">equals</span>(<span class="s">&quot;EMPLEADO&quot;</span>))</div>
+          <div class="ln err">    <span class="k">return</span> t * <span class="m">0.7</span>;</div>
+          <div class="ln">  <span class="k">return</span> t;</div>
+          <div class="ln">}</div>
+        </div>
+        <p class="ej-nota">Cada tipo de cliente nuevo obliga a <b>editar</b> este método que ya funcionaba.</p>
+      </div>
+      <div class="ej-card ej-bien">
+        <div class="ej-barra"><span>✓ Bien</span><span class="ej-sub">extender sin modificar</span></div>
+        <div class="ej-codigo">
+          <div class="ln"><span class="k">interface</span> <span class="t">Descuento</span> {</div>
+          <div class="ln">  <span class="k">double</span> <span class="n">aplicar</span>(<span class="k">double</span> t);</div>
+          <div class="ln">}</div>
+          <div class="ln"><span class="k">class</span> <span class="t">DescuentoVIP</span> <span class="k">implements</span> <span class="t">Descuento</span> {</div>
+          <div class="ln">  <span class="k">public</span> <span class="k">double</span> <span class="n">aplicar</span>(<span class="k">double</span> t) {</div>
+          <div class="ln">    <span class="k">return</span> t * <span class="m">0.9</span>;</div>
+          <div class="ln">  }</div>
+          <div class="ln">}</div>
+          <div class="ln"><span class="c">// ¿Empleado? Solo una clase nueva</span></div>
+        </div>
+        <p class="ej-nota">Se <b>agrega</b> código nuevo sin tocar el existente.</p>
+      </div>
+  </div>
+  <span class="fragment disparador" data-anim="ej-o" data-step="1"></span>
+</section>
+
+<!-- L: ejemplo mal / bien -->
+<section id="ej-l" class="ejemplo">
+  <h3><span class="mono rosa">L</span> · Sustitución de Liskov</h3>
+  <div class="ej-stage">
+      <div class="ej-card ej-mal">
+        <div class="ej-barra"><span>✗ Mal</span><span class="ej-sub">el hijo rompe al padre</span></div>
+        <div class="ej-codigo">
+          <div class="ln"><span class="k">class</span> <span class="t">Ave</span> {</div>
+          <div class="ln">  <span class="k">void</span> <span class="n">volar</span>() { ... }</div>
+          <div class="ln">}</div>
+          <div class="ln"><span class="k">class</span> <span class="t">Pinguino</span> <span class="k">extends</span> <span class="t">Ave</span> {</div>
+          <div class="ln">  <span class="k">void</span> <span class="n">volar</span>() {</div>
+          <div class="ln err">    <span class="k">throw</span> <span class="k">new</span> <span class="t">RuntimeException</span>();</div>
+          <div class="ln">  }</div>
+          <div class="ln">}</div>
+        </div>
+        <p class="ej-nota">Un Pingüino no puede reemplazar a un Ave: al llamar <code>volar()</code> el programa <b>falla</b>.</p>
+      </div>
+      <div class="ej-card ej-bien">
+        <div class="ej-barra"><span>✓ Bien</span><span class="ej-sub">el hijo cumple el contrato</span></div>
+        <div class="ej-codigo">
+          <div class="ln"><span class="k">class</span> <span class="t">Ave</span> {</div>
+          <div class="ln">  <span class="k">void</span> <span class="n">comer</span>() { ... }</div>
+          <div class="ln">}</div>
+          <div class="ln"><span class="k">class</span> <span class="t">AveVoladora</span> <span class="k">extends</span> <span class="t">Ave</span> {</div>
+          <div class="ln">  <span class="k">void</span> <span class="n">volar</span>() { ... }</div>
+          <div class="ln">}</div>
+          <div class="ln"><span class="k">class</span> <span class="t">Gorrion</span> <span class="k">extends</span> <span class="t">AveVoladora</span> { }</div>
+          <div class="ln"><span class="k">class</span> <span class="t">Pinguino</span> <span class="k">extends</span> <span class="t">Ave</span> { }</div>
+        </div>
+        <p class="ej-nota">Solo las aves que vuelan tienen <code>volar()</code>.</p>
+      </div>
+  </div>
+  <span class="fragment disparador" data-anim="ej-l" data-step="1"></span>
+</section>
+
+<!-- I: ejemplo mal / bien -->
+<section id="ej-i" class="ejemplo">
+  <h3><span class="mono rosa">I</span> · Segregación de Interfaces</h3>
+  <div class="ej-stage">
+      <div class="ej-card ej-mal">
+        <div class="ej-barra"><span>✗ Mal</span><span class="ej-sub">interfaz demasiado grande</span></div>
+        <div class="ej-codigo">
+          <div class="ln"><span class="k">interface</span> <span class="t">Trabajador</span> {</div>
+          <div class="ln">  <span class="k">void</span> <span class="n">trabajar</span>();</div>
+          <div class="ln err">  <span class="k">void</span> <span class="n">comer</span>();</div>
+          <div class="ln">}</div>
+          <div class="ln"><span class="k">class</span> <span class="t">Robot</span> <span class="k">implements</span> <span class="t">Trabajador</span> {</div>
+          <div class="ln">  <span class="k">public</span> <span class="k">void</span> <span class="n">trabajar</span>() { ... }</div>
+          <div class="ln err">  <span class="k">public</span> <span class="k">void</span> <span class="n">comer</span>() { <span class="c">/* ??? */</span> }</div>
+          <div class="ln">}</div>
+        </div>
+        <p class="ej-nota">Robot está <b>obligado</b> a implementar <code>comer()</code> aunque no lo usa.</p>
+      </div>
+      <div class="ej-card ej-bien">
+        <div class="ej-barra"><span>✓ Bien</span><span class="ej-sub">interfaces pequeñas</span></div>
+        <div class="ej-codigo">
+          <div class="ln"><span class="k">interface</span> <span class="t">Trabajable</span> {</div>
+          <div class="ln">  <span class="k">void</span> <span class="n">trabajar</span>();</div>
+          <div class="ln">}</div>
+          <div class="ln"><span class="k">interface</span> <span class="t">Alimentable</span> {</div>
+          <div class="ln">  <span class="k">void</span> <span class="n">comer</span>();</div>
+          <div class="ln">}</div>
+          <div class="ln"><span class="k">class</span> <span class="t">Robot</span> <span class="k">implements</span> <span class="t">Trabajable</span> {</div>
+          <div class="ln">  <span class="k">public</span> <span class="k">void</span> <span class="n">trabajar</span>() { ... }</div>
+          <div class="ln">}</div>
+        </div>
+        <p class="ej-nota">Cada clase implementa <b>solo lo que necesita</b>.</p>
+      </div>
+  </div>
+  <span class="fragment disparador" data-anim="ej-i" data-step="1"></span>
+</section>
+
+<!-- L vs I -->
+<section>
+  <h3><span class="mono rosa">L</span> vs <span class="mono rosa">I</span> · ¿en qué se diferencian?</h3>
+  <table class="tabla">
+    <thead><tr><th></th><th>L · Liskov</th><th>I · Segregación</th></tr></thead>
+    <tbody>
+      <tr class="fragment"><td>Pregunta</td><td>¿El hijo cumple lo que promete el padre?</td><td>¿La interfaz pide más de lo necesario?</td></tr>
+      <tr class="fragment"><td>El problema está en</td><td>El comportamiento del hijo</td><td>El tamaño de la interfaz</td></tr>
+      <tr class="fragment"><td>Síntoma</td><td>El hijo falla o cambia lo esperado</td><td>Métodos vacíos o con excepción</td></tr>
+    </tbody>
+  </table>
+  <p class="pequeno fragment">A menudo se arreglan con el mismo cambio, pero <b class="rosa">no miran el mismo problema</b>.</p>
+</section>
+
+<!-- D: ejemplo mal / bien -->
+<section id="ej-d" class="ejemplo">
+  <h3><span class="mono rosa">D</span> · Inversión de Dependencias</h3>
+  <div class="ej-stage">
+      <div class="ej-card ej-mal">
+        <div class="ej-barra"><span>✗ Mal</span><span class="ej-sub">depende de una clase concreta</span></div>
+        <div class="ej-codigo">
+          <div class="ln"><span class="k">class</span> <span class="t">Notificador</span> {</div>
+          <div class="ln err">  <span class="t">EmailSender</span> sender = <span class="k">new</span> <span class="t">EmailSender</span>();</div>
+          <div class="ln">  <span class="k">void</span> <span class="n">notificar</span>(<span class="t">String</span> m) {</div>
+          <div class="ln">    sender.<span class="n">enviar</span>(m);</div>
+          <div class="ln">  }</div>
+          <div class="ln">}</div>
+        </div>
+        <p class="ej-nota">Crea su propia dependencia: queda <b>atado al correo</b> y es difícil de probar.</p>
+      </div>
+      <div class="ej-card ej-bien">
+        <div class="ej-barra"><span>✓ Bien</span><span class="ej-sub">depende de un contrato</span></div>
+        <div class="ej-codigo">
+          <div class="ln"><span class="k">interface</span> <span class="t">Sender</span> {</div>
+          <div class="ln">  <span class="k">void</span> <span class="n">enviar</span>(<span class="t">String</span> m);</div>
+          <div class="ln">}</div>
+          <div class="ln"><span class="k">class</span> <span class="t">Notificador</span> {</div>
+          <div class="ln">  <span class="t">Sender</span> sender;</div>
+          <div class="ln">  <span class="t">Notificador</span>(<span class="t">Sender</span> s) { sender = s; }</div>
+          <div class="ln">  <span class="k">void</span> <span class="n">notificar</span>(<span class="t">String</span> m) { ... }</div>
+          <div class="ln">}</div>
+        </div>
+        <p class="ej-nota">Recibe <b>una abstracción</b> desde afuera: se cambia sin tocar la clase.</p>
+      </div>
+  </div>
+  <span class="fragment disparador" data-anim="ej-d" data-step="1"></span>
+</section>
+
 <!-- Código inicial con problemas resaltados -->
 <section>
   <h3>El problema: <span class="mono rosa">GestorPedidos</span></h3>

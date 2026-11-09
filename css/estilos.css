@@ -313,3 +313,27 @@
 .sim-log rect { fill: #111; stroke: var(--comentario); }
 .sim-log text { fill: var(--rosa); font-family: var(--mono); font-size: 14px; }
 .sim-log text.ok { fill: var(--verde); }
+
+/* ---------- Ejemplos SOLID: mal / bien ---------- */
+.ej-stage { display: flex; gap: 28px; justify-content: center; align-items: flex-start; width: 1200px; margin: 18px auto 0; }
+.ej-card { flex: 1; min-width: 0; background: var(--panel); border: 3px solid var(--panel-2); border-radius: 12px; text-align: left; overflow: hidden; box-shadow: 0 14px 40px rgba(0,0,0,.35); }
+.ej-mal { border-color: var(--rosa); }
+.ej-bien { border-color: var(--verde); }
+.reveal .ej-barra { display: flex; justify-content: space-between; align-items: center; background: var(--panel-2); padding: 8px 16px; font-family: var(--mono); font-size: 0.42em; font-weight: 700; }
+.ej-mal .ej-barra > span:first-child { color: var(--rosa); }
+.ej-bien .ej-barra > span:first-child { color: var(--verde); }
+.ej-sub { color: var(--comentario); font-weight: 400; }
+.ej-codigo { padding: 12px 0; font-family: var(--mono); font-size: 0.42em; line-height: 1.55; counter-reset: ln; }
+.ej-codigo .ln { white-space: pre; counter-increment: ln; border-left: 4px solid rgba(249,38,114,0); background-color: rgba(249,38,114,0); padding-right: 14px; }
+.ej-codigo .ln::before { content: counter(ln); display: inline-block; width: 2.4em; text-align: right; margin-right: 1.1em; color: var(--comentario); }
+.ej-codigo .k { color: var(--rosa); }
+.ej-codigo .t { color: var(--azul); }
+.ej-codigo .n { color: var(--verde); }
+.ej-codigo .s { color: var(--amarillo); }
+.ej-codigo .m { color: var(--morado); }
+.ej-codigo .c { color: var(--comentario); }
+.reveal .ej-nota { margin: 0; padding: 10px 18px 12px; font-size: 0.42em; line-height: 1.35; border-top: 1px solid var(--panel-2); opacity: 0; }
+.ej-mal .ej-nota { color: var(--rosa); }
+.ej-bien .ej-nota { color: var(--verde); }
+.reveal .ej-nota b { color: var(--texto); }
+.reveal .ej-nota code { color: var(--amarillo); }
