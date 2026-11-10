@@ -52,6 +52,67 @@
 </section>
 
 <!-- ============================================================
+     POO: conceptos previos
+     ============================================================ -->
+<section id="poo-clases">
+  <p class="comentario">// antes de empezar</p>
+  <h2>Programación Orientada a Objetos</h2>
+  <p class="pequeno">Objetos que se comunican entre sí para representar las entidades del programa</p>
+  <div class="ej-stage">
+      <div class="ej-card poo-card">
+        <div class="ej-barra"><span>Clase</span><span class="ej-sub">el plano de una casa</span></div>
+        <div class="ej-codigo">
+          <div class="ln"><span class="k">class</span> <span class="t">Superheroe</span> {</div>
+          <div class="ln">  <span class="t">String</span> nombre;              <span class="c">// atributo</span></div>
+          <div class="ln">  <span class="k">void</span> <span class="n">volar</span>() { ... }        <span class="c">// método</span></div>
+          <div class="ln">  <span class="k">void</span> <span class="n">superFuerza</span>() { ... }  <span class="c">// método</span></div>
+          <div class="ln">}</div>
+        </div>
+      </div>
+      <div class="poo-objetos">
+        <div class="poo-obj fragment">superman<small>instancia de Superheroe</small></div>
+        <div class="poo-obj fragment">ironMan<small>instancia de Superheroe</small></div>
+        <p class="pequeno fragment"><b class="azul">Atributos</b> = características · <b class="azul">métodos</b> = funciones · <b class="azul">new</b> = instanciar</p>
+      </div>
+  </div>
+</section>
+
+<section id="poo-pilares">
+  <h2>Los cuatro pilares de la POO</h2>
+  <div class="estilos">
+    <div class="estilo fragment"><h4>Abstracción</h4><p>Extraer lo importante de un objeto del mundo real y llevarlo a una clase.</p><p class="pro">Superhéroe: volar() y superFuerza()</p></div>
+    <div class="estilo fragment"><h4>Encapsulamiento</h4><p>Proteger la información del objeto para que nadie la manipule sin autorización.</p><p class="pro">atributos privados, métodos públicos</p></div>
+    <div class="estilo fragment"><h4>Herencia</h4><p>La clase hija hereda atributos y métodos de la clase padre.</p><p class="pro">Superheroe → Superman, IronMan</p></div>
+    <div class="estilo fragment"><h4>Polimorfismo</h4><p>Objetos distintos, mismo método, distinta implementación.</p><p class="pro">ambos vuelan, de formas distintas</p></div>
+  </div>
+</section>
+
+<section id="poo-interfaces">
+  <h2>Interfaces y clientes</h2>
+  <div class="ej-stage">
+      <div class="ej-card poo-card">
+        <div class="ej-barra"><span>Interfaz = contrato</span><span class="ej-sub">el timón de un auto</span></div>
+        <div class="ej-codigo">
+          <div class="ln"><span class="k">interface</span> <span class="t">Volador</span> {</div>
+          <div class="ln">  <span class="k">void</span> <span class="n">volar</span>();</div>
+          <div class="ln">}</div>
+          <div class="ln"><span class="k">class</span> <span class="t">Superman</span> <span class="k">implements</span> <span class="t">Volador</span> {</div>
+          <div class="ln">  <span class="k">public</span> <span class="k">void</span> <span class="n">volar</span>() { <span class="c">/* con poderes */</span> }</div>
+          <div class="ln">}</div>
+          <div class="ln"><span class="k">class</span> <span class="t">IronMan</span> <span class="k">implements</span> <span class="t">Volador</span> {</div>
+          <div class="ln">  <span class="k">public</span> <span class="k">void</span> <span class="n">volar</span>() { <span class="c">/* con un traje */</span> }</div>
+          <div class="ln">}</div>
+        </div>
+      </div>
+      <div class="poo-texto">
+        <p class="fragment"><b>Interfaz:</b> define el nombre del método y sus argumentos, pero no <i>cómo</i> se implementa.</p>
+        <p class="fragment"><b>Como el timón:</b> cada fabricante usa su tecnología, pero todos cumplen el contrato de darle un timón al conductor.</p>
+        <p class="fragment"><b>Cliente:</b> la parte del programa que usa una clase o interfaz (el conductor es cliente del timón).</p>
+      </div>
+  </div>
+</section>
+
+<!-- ============================================================
      01. PRINCIPIOS DE CÓDIGO
      ============================================================ -->
 <section class="seccion">
@@ -73,144 +134,139 @@
   <p class="pequeno fragment">Robert C. Martin, 2000 · Objetivo: bajo acoplamiento</p>
 </section>
 
-<!-- S: ejemplo mal / bien -->
+<!-- S: ejemplo mal / bien (superhéroes) -->
 <section id="ej-s" class="ejemplo">
   <h3><span class="mono rosa">S</span> · Responsabilidad Única</h3>
   <div class="ej-stage">
       <div class="ej-card ej-mal">
-        <div class="ej-barra"><span>✗ Mal</span><span class="ej-sub">3 razones para cambiar</span></div>
+        <div class="ej-barra"><span>✗ Mal</span><span class="ej-sub">muchas razones para cambiar</span></div>
         <div class="ej-codigo">
-          <div class="ln"><span class="k">public</span> <span class="k">class</span> <span class="t">Factura</span> {</div>
-          <div class="ln">  <span class="k">double</span> <span class="n">calcularTotal</span>() { ... }</div>
-          <div class="ln err">  <span class="k">void</span> <span class="n">guardarEnBD</span>() { ... }</div>
-          <div class="ln err">  <span class="k">void</span> <span class="n">imprimir</span>() { ... }</div>
+          <div class="ln"><span class="k">class</span> <span class="t">Superheroe</span> {</div>
+          <div class="ln err">  <span class="k">void</span> <span class="n">volar</span>() { ... }</div>
+          <div class="ln err">  <span class="k">void</span> <span class="n">treparParedes</span>() { ... }</div>
+          <div class="ln err">  <span class="k">void</span> <span class="n">lanzarFuego</span>() { ... }</div>
           <div class="ln">}</div>
         </div>
-        <p class="ej-nota">Calcula, guarda e imprime: <b>tres razones para cambiar</b> en una sola clase.</p>
+        <p class="ej-nota">Una sola clase con <b>demasiadas habilidades</b>: demasiadas razones para cambiar.</p>
       </div>
       <div class="ej-card ej-bien">
         <div class="ej-barra"><span>✓ Bien</span><span class="ej-sub">1 razón por clase</span></div>
         <div class="ej-codigo">
-          <div class="ln"><span class="k">class</span> <span class="t">Factura</span> {</div>
-          <div class="ln">  <span class="k">double</span> <span class="n">calcularTotal</span>() { ... }</div>
+          <div class="ln"><span class="k">class</span> <span class="t">Superheroe</span> {</div>
+          <div class="ln">  <span class="k">void</span> <span class="n">realizarSuperHabilidades</span>() { ... }</div>
           <div class="ln">}</div>
-          <div class="ln"><span class="k">class</span> <span class="t">FacturaRepositorio</span> {</div>
-          <div class="ln">  <span class="k">void</span> <span class="n">guardar</span>(<span class="t">Factura</span> f) { ... }</div>
-          <div class="ln">}</div>
-          <div class="ln"><span class="k">class</span> <span class="t">FacturaPrinter</span> {</div>
-          <div class="ln">  <span class="k">void</span> <span class="n">imprimir</span>(<span class="t">Factura</span> f) { ... }</div>
-          <div class="ln">}</div>
+          <div class="ln"><span class="k">class</span> <span class="t">Volar</span> { ... }</div>
+          <div class="ln"><span class="k">class</span> <span class="t">TreparParedes</span> { ... }</div>
+          <div class="ln"><span class="k">class</span> <span class="t">LanzarFuego</span> { ... }</div>
         </div>
-        <p class="ej-nota">Cada clase cambia por <b>una sola razón</b>.</p>
+        <p class="ej-nota">Una sola función; cada habilidad <b>se delega a su propia clase</b>.</p>
       </div>
   </div>
   <span class="fragment disparador" data-anim="ej-s" data-step="1"></span>
 </section>
 
-<!-- O: ejemplo mal / bien -->
+<!-- O: ejemplo mal / bien (superhéroes) -->
 <section id="ej-o" class="ejemplo">
   <h3><span class="mono rosa">O</span> · Abierto / Cerrado</h3>
   <div class="ej-stage">
       <div class="ej-card ej-mal">
         <div class="ej-barra"><span>✗ Mal</span><span class="ej-sub">editar para extender</span></div>
         <div class="ej-codigo">
-          <div class="ln"><span class="k">double</span> <span class="n">aplicar</span>(<span class="t">String</span> tipo, <span class="k">double</span> t) {</div>
-          <div class="ln err">  <span class="k">if</span> (tipo.<span class="n">equals</span>(<span class="s">&quot;VIP&quot;</span>))</div>
-          <div class="ln err">    <span class="k">return</span> t * <span class="m">0.9</span>;</div>
-          <div class="ln err">  <span class="k">if</span> (tipo.<span class="n">equals</span>(<span class="s">&quot;EMPLEADO&quot;</span>))</div>
-          <div class="ln err">    <span class="k">return</span> t * <span class="m">0.7</span>;</div>
-          <div class="ln">  <span class="k">return</span> t;</div>
+          <div class="ln"><span class="k">class</span> <span class="t">Superheroe</span> {</div>
+          <div class="ln">  <span class="k">void</span> <span class="n">realizarSuperHabilidades</span>() {</div>
+          <div class="ln err">    <span class="n">volar</span>();</div>
+          <div class="ln">  }</div>
+          <div class="ln err">  <span class="k">void</span> <span class="n">volar</span>() { ... }</div>
           <div class="ln">}</div>
         </div>
-        <p class="ej-nota">Cada tipo de cliente nuevo obliga a <b>editar</b> este método que ya funcionaba.</p>
+        <p class="ej-nota">Agregar <code>volar()</code> obliga a <b>editar</b> la clase Superheroe.</p>
       </div>
       <div class="ej-card ej-bien">
         <div class="ej-barra"><span>✓ Bien</span><span class="ej-sub">extender sin modificar</span></div>
         <div class="ej-codigo">
-          <div class="ln"><span class="k">interface</span> <span class="t">Descuento</span> {</div>
-          <div class="ln">  <span class="k">double</span> <span class="n">aplicar</span>(<span class="k">double</span> t);</div>
+          <div class="ln"><span class="k">interface</span> <span class="t">Habilidad</span> {</div>
+          <div class="ln">  <span class="k">void</span> <span class="n">usar</span>();</div>
           <div class="ln">}</div>
-          <div class="ln"><span class="k">class</span> <span class="t">DescuentoVIP</span> <span class="k">implements</span> <span class="t">Descuento</span> {</div>
-          <div class="ln">  <span class="k">public</span> <span class="k">double</span> <span class="n">aplicar</span>(<span class="k">double</span> t) {</div>
-          <div class="ln">    <span class="k">return</span> t * <span class="m">0.9</span>;</div>
-          <div class="ln">  }</div>
+          <div class="ln"><span class="k">class</span> <span class="t">Volar</span> <span class="k">implements</span> <span class="t">Habilidad</span> {</div>
+          <div class="ln">  <span class="k">public</span> <span class="k">void</span> <span class="n">usar</span>() { ... }</div>
           <div class="ln">}</div>
-          <div class="ln"><span class="c">// ¿Empleado? Solo una clase nueva</span></div>
+          <div class="ln"><span class="k">class</span> <span class="t">Superheroe</span> {</div>
+          <div class="ln">  <span class="t">Superheroe</span>(<span class="t">Habilidad</span> h) { ... }</div>
+          <div class="ln">}</div>
+          <div class="ln"><span class="c">// Nueva habilidad: solo otra clase</span></div>
         </div>
-        <p class="ej-nota">Se <b>agrega</b> código nuevo sin tocar el existente.</p>
+        <p class="ej-nota">Una interfaz y <b>una clase por habilidad</b>: se extiende sin tocar Superheroe.</p>
       </div>
   </div>
   <span class="fragment disparador" data-anim="ej-o" data-step="1"></span>
 </section>
 
-<!-- L: ejemplo mal / bien -->
+<!-- L: ejemplo mal / bien (superhéroes) -->
 <section id="ej-l" class="ejemplo">
   <h3><span class="mono rosa">L</span> · Sustitución de Liskov</h3>
   <div class="ej-stage">
       <div class="ej-card ej-mal">
-        <div class="ej-barra"><span>✗ Mal</span><span class="ej-sub">el hijo rompe al padre</span></div>
+        <div class="ej-barra"><span>✗ Mal</span><span class="ej-sub">el hijo agrega restricciones</span></div>
         <div class="ej-codigo">
-          <div class="ln"><span class="k">class</span> <span class="t">Ave</span> {</div>
-          <div class="ln">  <span class="k">void</span> <span class="n">volar</span>() { ... }</div>
-          <div class="ln">}</div>
-          <div class="ln"><span class="k">class</span> <span class="t">Pinguino</span> <span class="k">extends</span> <span class="t">Ave</span> {</div>
+          <div class="ln"><span class="k">class</span> <span class="t">SuperheroeVolador</span> <span class="k">extends</span> <span class="t">Superheroe</span> {</div>
           <div class="ln">  <span class="k">void</span> <span class="n">volar</span>() {</div>
-          <div class="ln err">    <span class="k">throw</span> <span class="k">new</span> <span class="t">RuntimeException</span>();</div>
+          <div class="ln err">    <span class="k">if</span> (!tieneSuperpoderes)</div>
+          <div class="ln err">      <span class="k">throw</span> <span class="k">new</span> <span class="t">RuntimeException</span>();</div>
           <div class="ln">  }</div>
           <div class="ln">}</div>
+          <div class="ln"><span class="k">class</span> <span class="t">IronMan</span> <span class="k">extends</span> <span class="t">SuperheroeVolador</span> { }</div>
         </div>
-        <p class="ej-nota">Un Pingüino no puede reemplazar a un Ave: al llamar <code>volar()</code> el programa <b>falla</b>.</p>
+        <p class="ej-nota">La restricción excluye a Iron Man (vuela con un traje): ya <b>no puede sustituir</b> a Superman.</p>
       </div>
       <div class="ej-card ej-bien">
         <div class="ej-barra"><span>✓ Bien</span><span class="ej-sub">el hijo cumple el contrato</span></div>
         <div class="ej-codigo">
-          <div class="ln"><span class="k">class</span> <span class="t">Ave</span> {</div>
-          <div class="ln">  <span class="k">void</span> <span class="n">comer</span>() { ... }</div>
-          <div class="ln">}</div>
-          <div class="ln"><span class="k">class</span> <span class="t">AveVoladora</span> <span class="k">extends</span> <span class="t">Ave</span> {</div>
+          <div class="ln"><span class="k">class</span> <span class="t">SuperheroeVolador</span> <span class="k">extends</span> <span class="t">Superheroe</span> {</div>
           <div class="ln">  <span class="k">void</span> <span class="n">volar</span>() { ... }</div>
           <div class="ln">}</div>
-          <div class="ln"><span class="k">class</span> <span class="t">Gorrion</span> <span class="k">extends</span> <span class="t">AveVoladora</span> { }</div>
-          <div class="ln"><span class="k">class</span> <span class="t">Pinguino</span> <span class="k">extends</span> <span class="t">Ave</span> { }</div>
+          <div class="ln"><span class="k">class</span> <span class="t">Superman</span> <span class="k">extends</span> <span class="t">SuperheroeVolador</span> { }</div>
+          <div class="ln"><span class="k">class</span> <span class="t">IronMan</span> <span class="k">extends</span> <span class="t">SuperheroeVolador</span> { }</div>
         </div>
-        <p class="ej-nota">Solo las aves que vuelan tienen <code>volar()</code>.</p>
+        <p class="ej-nota">Sin restricciones extra: Superman e Iron Man son <b>intercambiables</b>.</p>
       </div>
   </div>
   <span class="fragment disparador" data-anim="ej-l" data-step="1"></span>
 </section>
 
-<!-- I: ejemplo mal / bien -->
+<!-- I: ejemplo mal / bien (superhéroes) -->
 <section id="ej-i" class="ejemplo">
   <h3><span class="mono rosa">I</span> · Segregación de Interfaces</h3>
   <div class="ej-stage">
       <div class="ej-card ej-mal">
         <div class="ej-barra"><span>✗ Mal</span><span class="ej-sub">interfaz demasiado grande</span></div>
         <div class="ej-codigo">
-          <div class="ln"><span class="k">interface</span> <span class="t">Trabajador</span> {</div>
-          <div class="ln">  <span class="k">void</span> <span class="n">trabajar</span>();</div>
-          <div class="ln err">  <span class="k">void</span> <span class="n">comer</span>();</div>
+          <div class="ln"><span class="k">interface</span> <span class="t">Habilidades</span> {</div>
+          <div class="ln">  <span class="k">void</span> <span class="n">volar</span>();</div>
+          <div class="ln err">  <span class="k">void</span> <span class="n">treparMuros</span>();</div>
+          <div class="ln err">  <span class="k">void</span> <span class="n">lanzarFuego</span>();</div>
           <div class="ln">}</div>
-          <div class="ln"><span class="k">class</span> <span class="t">Robot</span> <span class="k">implements</span> <span class="t">Trabajador</span> {</div>
-          <div class="ln">  <span class="k">public</span> <span class="k">void</span> <span class="n">trabajar</span>() { ... }</div>
-          <div class="ln err">  <span class="k">public</span> <span class="k">void</span> <span class="n">comer</span>() { <span class="c">/* ??? */</span> }</div>
+          <div class="ln"><span class="k">class</span> <span class="t">Superman</span> <span class="k">implements</span> <span class="t">Habilidades</span> {</div>
+          <div class="ln">  <span class="k">public</span> <span class="k">void</span> <span class="n">volar</span>() { ... }</div>
+          <div class="ln err">  <span class="k">public</span> <span class="k">void</span> <span class="n">treparMuros</span>() { <span class="c">/* ??? */</span> }</div>
+          <div class="ln err">  <span class="k">public</span> <span class="k">void</span> <span class="n">lanzarFuego</span>() { <span class="c">/* ??? */</span> }</div>
           <div class="ln">}</div>
         </div>
-        <p class="ej-nota">Robot está <b>obligado</b> a implementar <code>comer()</code> aunque no lo usa.</p>
+        <p class="ej-nota">Superman está <b>obligado</b> a trepar muros y lanzar fuego, habilidades que no tiene.</p>
       </div>
       <div class="ej-card ej-bien">
         <div class="ej-barra"><span>✓ Bien</span><span class="ej-sub">interfaces pequeñas</span></div>
         <div class="ej-codigo">
-          <div class="ln"><span class="k">interface</span> <span class="t">Trabajable</span> {</div>
-          <div class="ln">  <span class="k">void</span> <span class="n">trabajar</span>();</div>
+          <div class="ln"><span class="k">interface</span> <span class="t">Volador</span> {</div>
+          <div class="ln">  <span class="k">void</span> <span class="n">volar</span>();</div>
           <div class="ln">}</div>
-          <div class="ln"><span class="k">interface</span> <span class="t">Alimentable</span> {</div>
-          <div class="ln">  <span class="k">void</span> <span class="n">comer</span>();</div>
+          <div class="ln"><span class="k">interface</span> <span class="t">TrepaMuros</span> {</div>
+          <div class="ln">  <span class="k">void</span> <span class="n">treparMuros</span>();</div>
           <div class="ln">}</div>
-          <div class="ln"><span class="k">class</span> <span class="t">Robot</span> <span class="k">implements</span> <span class="t">Trabajable</span> {</div>
-          <div class="ln">  <span class="k">public</span> <span class="k">void</span> <span class="n">trabajar</span>() { ... }</div>
+          <div class="ln"><span class="k">class</span> <span class="t">Superman</span> <span class="k">implements</span> <span class="t">Volador</span> {</div>
+          <div class="ln">  <span class="k">public</span> <span class="k">void</span> <span class="n">volar</span>() { ... }</div>
           <div class="ln">}</div>
         </div>
-        <p class="ej-nota">Cada clase implementa <b>solo lo que necesita</b>.</p>
+        <p class="ej-nota">Una interfaz por habilidad: cada superhéroe implementa <b>solo las suyas</b>.</p>
       </div>
   </div>
   <span class="fragment disparador" data-anim="ej-i" data-step="1"></span>
@@ -230,35 +286,34 @@
   <p class="pequeno fragment">A menudo se arreglan con el mismo cambio, pero <b class="rosa">no miran el mismo problema</b>.</p>
 </section>
 
-<!-- D: ejemplo mal / bien -->
+<!-- D: ejemplo mal / bien (superhéroes) -->
 <section id="ej-d" class="ejemplo">
   <h3><span class="mono rosa">D</span> · Inversión de Dependencias</h3>
   <div class="ej-stage">
       <div class="ej-card ej-mal">
-        <div class="ej-barra"><span>✗ Mal</span><span class="ej-sub">depende de una clase concreta</span></div>
+        <div class="ej-barra"><span>✗ Mal</span><span class="ej-sub">depende de clases concretas</span></div>
         <div class="ej-codigo">
-          <div class="ln"><span class="k">class</span> <span class="t">Notificador</span> {</div>
-          <div class="ln err">  <span class="t">EmailSender</span> sender = <span class="k">new</span> <span class="t">EmailSender</span>();</div>
-          <div class="ln">  <span class="k">void</span> <span class="n">notificar</span>(<span class="t">String</span> m) {</div>
-          <div class="ln">    sender.<span class="n">enviar</span>(m);</div>
-          <div class="ln">  }</div>
+          <div class="ln"><span class="k">class</span> <span class="t">Avengers</span> {</div>
+          <div class="ln err">  <span class="t">IronMan</span> ironMan = <span class="k">new</span> <span class="t">IronMan</span>();</div>
+          <div class="ln err">  <span class="t">Capitan</span> cap = <span class="k">new</span> <span class="t">Capitan</span>();</div>
           <div class="ln">}</div>
+          <div class="ln"><span class="c">// ¿Agregar a Hulk? Editar Avengers</span></div>
         </div>
-        <p class="ej-nota">Crea su propia dependencia: queda <b>atado al correo</b> y es difícil de probar.</p>
+        <p class="ej-nota">Avengers crea a sus miembros: agregar a Hulk obliga a <b>modificarla</b> (y viola O).</p>
       </div>
       <div class="ej-card ej-bien">
         <div class="ej-barra"><span>✓ Bien</span><span class="ej-sub">depende de un contrato</span></div>
         <div class="ej-codigo">
-          <div class="ln"><span class="k">interface</span> <span class="t">Sender</span> {</div>
-          <div class="ln">  <span class="k">void</span> <span class="n">enviar</span>(<span class="t">String</span> m);</div>
+          <div class="ln"><span class="k">interface</span> <span class="t">Avenger</span> {</div>
+          <div class="ln">  <span class="k">void</span> <span class="n">atacar</span>();</div>
           <div class="ln">}</div>
-          <div class="ln"><span class="k">class</span> <span class="t">Notificador</span> {</div>
-          <div class="ln">  <span class="t">Sender</span> sender;</div>
-          <div class="ln">  <span class="t">Notificador</span>(<span class="t">Sender</span> s) { sender = s; }</div>
-          <div class="ln">  <span class="k">void</span> <span class="n">notificar</span>(<span class="t">String</span> m) { ... }</div>
+          <div class="ln"><span class="k">class</span> <span class="t">Avengers</span> {</div>
+          <div class="ln">  <span class="t">List</span>&lt;<span class="t">Avenger</span>&gt; equipo;</div>
+          <div class="ln">  <span class="t">Avengers</span>(<span class="t">List</span>&lt;<span class="t">Avenger</span>&gt; e) { equipo = e; }</div>
           <div class="ln">}</div>
+          <div class="ln"><span class="c">// Hulk: solo otra clase Avenger</span></div>
         </div>
-        <p class="ej-nota">Recibe <b>una abstracción</b> desde afuera: se cambia sin tocar la clase.</p>
+        <p class="ej-nota">Recibe los Avenger <b>desde afuera</b> (inyección de dependencias).</p>
       </div>
   </div>
   <span class="fragment disparador" data-anim="ej-d" data-step="1"></span>

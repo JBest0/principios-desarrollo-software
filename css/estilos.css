@@ -337,3 +337,13 @@
 .ej-bien .ej-nota { color: var(--verde); }
 .reveal .ej-nota b { color: var(--texto); }
 .reveal .ej-nota code { color: var(--amarillo); }
+
+/* ---------- POO: conceptos previos ---------- */
+.poo-card { border-color: var(--azul); }
+.poo-card .ej-barra > span:first-child { color: var(--azul); }
+.poo-objetos { flex: 0.8; display: flex; flex-direction: column; gap: 14px; justify-content: center; align-self: stretch; }
+.poo-obj { background: var(--panel); border: 3px solid var(--verde); border-radius: 12px; padding: 12px 18px; font-family: var(--mono); font-size: 0.5em; text-align: left; color: var(--verde); font-weight: 700; }
+.poo-obj small { display: block; color: var(--comentario); font-weight: 400; margin-top: 4px; }
+.poo-texto { flex: 1; min-width: 0; text-align: left; }
+.reveal .poo-texto p { font-size: 0.5em; margin: 0 0 14px; background: var(--panel); border-left: 5px solid var(--azul); border-radius: 8px; padding: 12px 16px; line-height: 1.35; }
+.reveal .poo-texto p b { color: var(--azul); }
