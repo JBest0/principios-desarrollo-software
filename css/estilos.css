@@ -347,3 +347,18 @@
 .poo-texto { flex: 1; min-width: 0; text-align: left; }
 .reveal .poo-texto p { font-size: 0.5em; margin: 0 0 14px; background: var(--panel); border-left: 5px solid var(--azul); border-radius: 8px; padding: 12px 16px; line-height: 1.35; }
 .reveal .poo-texto p b { color: var(--azul); }
+
+
+/* ---------- Debate con contexto (LibroNet) ---------- */
+.debate { display: flex; gap: 20px; align-items: flex-start; margin-top: 10px; }
+.debate-col { flex: 1; min-width: 0; }
+.caso-panel { flex: 0 0 290px; background: var(--panel); border-radius: 12px; padding: 14px 18px; text-align: left; }
+.reveal .caso-panel p { font-size: 0.46em; margin: 0 0 10px; line-height: 1.3; }
+.reveal .caso-panel .caso-titulo { font-family: var(--mono); font-weight: 700; font-size: 0.5em; margin-bottom: 8px; }
+.reveal .debate .pregunta { margin-top: 0; }
+.reveal .debate-slide > .comentario { font-size: 0.7em; margin: 0; }
+.reveal .debate-slide > h3 { margin: 0 0 4px; }
+.reveal .debate-slide .debate pre.codigo-reto { font-size: 0.37em; }
+.reveal .debate-slide .caso-panel p { font-size: 0.42em; margin-bottom: 8px; }
+.reveal .debate-slide .pregunta { font-size: 0.68em; margin: 4px 0 0; }
+.reveal .debate-slide .pequeno { margin: 4px 0 0; }

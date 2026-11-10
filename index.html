@@ -557,28 +557,67 @@ public class DescuentoEstudiante
   <span class="fragment disparador" data-anim="yagni" data-step="2"></span>
 </section>
 
-<!-- Actividad 2 -->
-<section class="actividad">
+<!-- Actividad 2: debate con contexto (una sola diapositiva) -->
+<section class="actividad debate-slide">
   <p class="comentario">// actividad</p>
-  <h2>Debate: ¿cuál versión es mejor?</h2>
-  <div class="dos-col">
-    <pre class="codigo-chico"><code class="language-java" data-trim>
+  <h3>Debate: ¿qué versión le conviene a <span class="amarillo">LibroNet</span>?</h3>
+  <div class="debate">
+    <div class="caso-panel">
+      <p class="caso-titulo amarillo">El caso</p>
+      <p><b>LibroNet</b> es una tienda en línea de libros y útiles escolares.</p>
+      <p><b>Hoy:</b> clientes normal, VIP (10 %) y mayorista (15 %), más el impuesto del 13 %.</p>
+      <p><b>Pedido:</b> 5 % extra para todos en la campaña de fin de año (3 semanas).</p>
+      <p><b>Pendiente:</b> marketing quiere probar un descuento de primera compra, aún sin confirmar.</p>
+      <p><b>Equipo:</b> 2 desarrolladores · 2 semanas.</p>
+    </div>
+    <div class="debate-col">
+      <p class="etiqueta-version azul">Opción 1 · funciones simples</p>
+      <pre class="codigo-reto"><code class="language-java" data-trim>
+double precioNormal(double p) {
+    double impuesto = p * 0.13;
+    return p + impuesto;
+}
+
 double precioVIP(double p) {
-    return p * 0.9;
+    double descuento = p * 0.10;
+    double neto = p - descuento;
+    double impuesto = neto * 0.13;
+    return neto + impuesto;
 }
+
 double precioMayorista(double p) {
-    return p * 0.85;
+    double descuento = p * 0.15;
+    double neto = p - descuento;
+    double impuesto = neto * 0.13;
+    return neto + impuesto;
 }
-    </code></pre>
-    <pre class="codigo-chico"><code class="language-java" data-trim>
+      </code></pre>
+    </div>
+    <div class="debate-col">
+      <p class="etiqueta-version amarillo">Opción 2 · una sola función</p>
+      <pre class="codigo-reto"><code class="language-java" data-trim>
 double precio(double p, String tipo,
               boolean temporada,
+              boolean primeraCompra,
               boolean redondear) {
-    // 20 líneas de if/else...
+    double desc = 0;
+    if (tipo.equals("VIP")) {
+        desc = 0.10;
+    } else if (tipo.equals("MAYORISTA")) {
+        desc = 0.15;
+    }
+    if (temporada)     desc += 0.05;
+    if (primeraCompra) desc += 0.03;
+    double neto = p - p * desc;
+    double total = neto + neto * 0.13;
+    if (redondear) total = Math.round(total);
+    return total;
 }
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
-  <p class="fragment pregunta">Voten y defiendan: ¿simple y duplicado, o DRY y complejo?</p>
+  <p class="fragment pregunta">Voten y defiendan para LibroNet: ¿simple y duplicado, o DRY y complejo?</p>
+  <p class="fragment pequeno">¿Y si hubiera 12 tipos de cliente? ¿O si el sistema se reemplaza en 2 meses?</p>
 </section>
 
 <!-- La tensión entre principios: balanza -->
